@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.js";
@@ -12,6 +13,11 @@ export default function LoginForm() {
     formState: { errors },
     setError,
   } = useForm();
+
+  const [defaultCredentials, setDefaultCredentials] = useState({
+    email: "admin@email.com",
+    password: "admin1234",
+  });
 
   const submitForm = async (formData) => {
     try {
@@ -45,6 +51,11 @@ export default function LoginForm() {
       className="border-b border-[#3F3F3F] pb-10 lg:pb-[60px]"
       onSubmit={handleSubmit(submitForm)}
     >
+      <h3 className="flex justify-center text-slate-500 mb-2">
+        The mock backend is based on json-server, once database is integrated
+        you can use through authentication, for now login with the default
+        credentials, all other functionalities are live
+      </h3>
       <Field label="Email" error={errors.email}>
         <input
           {...register("email", {
@@ -54,6 +65,7 @@ export default function LoginForm() {
             errors.email ? "border-red-500" : "border-gray-200"
           } `}
           type="email"
+          value={defaultCredentials.email}
           name="email"
           id="email"
         />
@@ -73,6 +85,7 @@ export default function LoginForm() {
           } `}
           type="password"
           name="password"
+          value={defaultCredentials.password}
           id="password"
         />
       </Field>

@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth.js";
 import useAxios from "../../hooks/useAxios";
+import { useProfile } from "../../hooks/useProfile.js";
 import PostCommentList from "./PostCommentList";
 
 export default function PostComments({ post }) {
   const { api } = useAxios();
   const { auth } = useAuth();
+  const { state: profile } = useProfile();
   const [showCommentList, setShowCommentList] = useState(false);
 
   const [comments, setComments] = useState(post?.comments);
   const [comment, setComment] = useState("");
+  const user = profile?.user ?? auth?.user;
 
   const addComment = async (event) => {
     const keyCode = event.keyCode;
@@ -38,9 +41,7 @@ export default function PostComments({ post }) {
         <div className="flex-center mb-3 gap-2 lg:gap-4">
           <img
             className="max-w-7 max-h-7 rounded-full lg:max-h-[34px] lg:max-w-[34px]"
-            src={`${import.meta.env.VITE_SERVER_BASE_URL}/${
-              auth?.user?.avatar
-            }`}
+            src={`${import.meta.env.VITE_SERVER_BASE_URL}/${user?.avatar}`}
             alt="avatar"
           />
 
